@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Destination Page</title>
+</head>
+<body>
+	<p><a href="{% url 'logout' %}">Logout</a> | <a href="{% url 'showtravel' %}">Home</a></p>
+	<hr>
+	<h2>{{travel.destination}}</h2>
+	<p>Planned by: {{travel.user.name}}</p>
+	<p>Description: {{travel.description}}</p>
+	<p>Travel Date From: {{travel.date_from}}</p>
+	<p>Travel Date to: {{travel.date_to}}</p>
+	<br>
+	<h2>Other users Joining the trip:</h2>
+	{%for user in users%}
+		{%if user.travel.id == travel.id%}
+		<p>{{user.user.name}}</p>
+		{%endif%}
+	{%endfor%}
+
+</body>
+</html>

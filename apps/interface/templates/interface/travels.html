@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Travel page</title>
+</head>
+<body>
+	<a href="{% url 'logout' %}">Logout</a>
+	<hr>
+	<h2>Hello, {{request.session.user.name}}!</h2>
+	<p>Your Trip Schedules</p>
+	<hr>
+	<table>
+		<tr>
+			<th>Destination</th>
+			<th>Travel Start Date</th>
+			<th>Travel End Date</th>
+			<th>Plan</th>
+		</tr>
+		{%for travel in travels%}
+		<tr>
+			<th><a href="{% url 'showdestination' travel.id %}">{{travel.destination}}</a></th>
+			<th>{{travel.date_from}}</th>
+			<th>{{travel.date_to}}</th>
+			<th>{{travel.description}}</th>
+		</tr>
+		{%endfor%}
+		{%for travel in joinedtravels%}
+		<tr>
+			<th><a href="{% url 'showdestination' travel.travel.id %}">{{travel.travel.destination}}</a></th>
+			<th>{{travel.travel.date_from}}</th>
+			<th>{{travel.travel.date_to}}</th>
+			<th>{{travel.travel.description}}</th>
+		</tr>
+		{%endfor%}
+	</table>
+	<hr>
+	<br>
+	<p>Other User's Travel Plans</p>
+	<hr>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Destination</th>
+			<th>Travel Start Date</th>
+			<th>Travel End Date</th>
+			<th>Do You Want to Join?</th>
+		</tr>
+		{%for travel in alltravels%}	
+			{%if travel.user.id != request.session.user.id and travel.destination != hides.0.travel.destination and travel.destination != hides.1.travel.destination and travel.destination != hides.2.travel.destination and travel.destination != hides.3.travel.destination%}
+			<tr>
+				<td>{{travel.user.name}}</td>
+				<td><a href="{% url 'showdestination' travel.id %}">{{travel.destination}}</a></td>
+				<td>{{travel.date_from}}</td>
+				<td>{{travel.date_to}}</td>
+				<td><a href="{%url 'jointravel' travel.id %}">Join</a></td>
+			</tr>
+			{%endif%}	
+		{%endfor%}
+	</table>
+	<hr>
+	<br>
+	<a href="{% url 'edittravel' %}">Add Travel Plan</a>
+</body>
+</html>
